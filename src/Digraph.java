@@ -157,9 +157,11 @@ public class Digraph {
         s.append("digraph {" + NEWLINE);
         s.append("node[shape=circle, style=filled, fixedsize=true, width=0.3, fontsize=\"10pt\"]" + NEWLINE);
         s.append("edge[arrowhead=normal]" + NEWLINE);
+
+        int actions = 23;
         for (int v = 0; v < V; v++) {
-            for (int w : adj[v]) {
-                s.append(v + " -> " + w + NEWLINE);
+            for (int u : adj[v]) {
+                s.append((u - actions) + " -> " + v + NEWLINE);
             }
         }
         s.append("}" + NEWLINE);
