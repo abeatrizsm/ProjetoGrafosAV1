@@ -2,6 +2,9 @@ import java.util.NoSuchElementException;
 
 public class Digraph {
     private static final String NEWLINE = System.getProperty("line.separator");
+    private static final int USERS_TINY = 2;
+    private static final int USERS_TOTAL = 7144;
+
     private final int V;           // number of vertices in this digraph
     private int E;                 // number of edges in this digraph
     private Bag<Integer>[] adj;    // adj[v] = adjacency list for vertex v
@@ -123,7 +126,7 @@ public class Digraph {
         for (int v = 0; v < V; v++) {
             s.append(String.format("%d: ", v));
             for (int w : adj[v]) {
-                s.append(String.format("%d ", w));
+                s.append(String.format("%d ", (w - USERS_TINY)));
             }
             s.append(NEWLINE);
         }
@@ -157,11 +160,9 @@ public class Digraph {
         s.append("digraph {" + NEWLINE);
         s.append("node[shape=circle, style=filled, fixedsize=true, width=0.3, fontsize=\"10pt\"]" + NEWLINE);
         s.append("edge[arrowhead=normal]" + NEWLINE);
-
-        int actions = 23;
         for (int v = 0; v < V; v++) {
-            for (int u : adj[v]) {
-                s.append((u - actions) + " -> " + v + NEWLINE);
+            for (int w : adj[v]) {
+                s.append(v + " -> " + (w - USERS_TINY) + NEWLINE);
             }
         }
         s.append("}" + NEWLINE);
