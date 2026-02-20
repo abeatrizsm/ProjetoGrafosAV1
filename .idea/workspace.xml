@@ -5,9 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d455e9ff-39f6-4535-883f-fbdd680fdf23" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Digraph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Digraph.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tinyDigraph.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tinyDigraph.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/java/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/java/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/java/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/java/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/java/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjetoGrafosAV1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/java/ProjetoGrafosAV1.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/digraph.txt" beforeDir="false" afterPath="$PROJECT_DIR$/java/digraph.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mooc_actions.tsv" beforeDir="false" afterPath="$PROJECT_DIR$/java/mooc_actions.tsv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Bag.java" beforeDir="false" afterPath="$PROJECT_DIR$/java/src/Bag.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Convert.java" beforeDir="false" afterPath="$PROJECT_DIR$/java/src/Convert.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Digraph.java" beforeDir="false" afterPath="$PROJECT_DIR$/java/src/Digraph.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/In.java" beforeDir="false" afterPath="$PROJECT_DIR$/java/src/In.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/java/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Stack.java" beforeDir="false" afterPath="$PROJECT_DIR$/java/src/Stack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/StdIn.java" beforeDir="false" afterPath="$PROJECT_DIR$/java/src/StdIn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/StdOut.java" beforeDir="false" afterPath="$PROJECT_DIR$/java/src/StdOut.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tinyDigraph.txt" beforeDir="false" afterPath="$PROJECT_DIR$/java/tinyDigraph.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,17 +47,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Convert.executor": "Run",
-    "Application.Digraph.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/anabe/Documents/5 semestre/Grafos/ProjetoAV1"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Convert.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Digraph.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/anabe/Documents/5 semestre/Grafos/ProjetoGrafosAV1&quot;
   }
-}]]></component>
-  <component name="RunManager" selected="Application.Digraph">
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\anabe\Documents\5 semestre\Grafos\ProjetoGrafosAV1\java" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.Convert">
     <configuration name="Convert" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Convert" />
       <module name="ProjetoGrafosAV1" />
