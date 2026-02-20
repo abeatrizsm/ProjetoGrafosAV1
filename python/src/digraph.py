@@ -29,6 +29,7 @@ from bag import Bag
 
 
 class Digraph:
+    TINY_USERS = 2
 
     def __init__(self, v=0, **kwargs):
         self.V = v
@@ -49,9 +50,9 @@ class Digraph:
                 self.add_edge(int(v), int(w))
 
     def __str__(self):
-        users = 2
+        
         s = "%d vertices, %d edges\n" % (self.V, self.E)
-        s += "\n".join("%d: %s" % (v, " ".join(str(w - users)
+        s += "\n".join("%d: %s" % (v, " ".join(str(w - self.TINY_USERS)
                                                for w in self.adj[v])) for v in range(self.V))
         return s
 
@@ -106,3 +107,5 @@ if __name__ == '__main__':
             g.add_edge(v, w)
 
     print(g)
+    
+    #rodar: python src/digraph.py data/tinyDigraph.txt
