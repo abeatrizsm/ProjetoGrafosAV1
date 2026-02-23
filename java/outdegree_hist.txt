@@ -1,0 +1,4 @@
+outdegree histogram
+0 13
+8 1
+17 1

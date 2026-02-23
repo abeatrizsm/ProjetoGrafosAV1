@@ -18,6 +18,9 @@ class Bag:
         self.first = None
         self.n = 0
 
+    def __len__(self):
+        return self.n
+
     def __str__(self):
         return " ".join(str(i) for i in self)
 

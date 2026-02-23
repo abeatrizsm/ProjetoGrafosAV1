@@ -8,7 +8,7 @@ to be or not to - be - - that - - - is
 to be not that or be (2 left on stack)
 """
 
-from algs4.utils.linklist import Node, LinkIterator
+from linklist import Node, LinkIterator
 
 
 class Stack:

@@ -1,9 +1,13 @@
 import java.util.NoSuchElementException;
+import java.io.IOException;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 
 public class Digraph {
     private static final String NEWLINE = System.getProperty("line.separator");
     private static final int USERS_TINY = 2;
-    private static final int USERS_TOTAL = 7047;
+    private static final int USERS_TOTAL = 7144;
 
     private final int V;           // number of vertices in this digraph
     private int E;                 // number of edges in this digraph
@@ -109,14 +113,6 @@ public class Digraph {
         validateVertex(v);
         return indegree[v];
     }
-    int total;
-    public void histograma(){
-        for (int i = 0; i < V; i++) {
-            System.out.println(indegree(i));
-
-
-        }
-    }
 
     public Digraph reverse() {
         Digraph reverse = new Digraph(V);
@@ -177,13 +173,177 @@ public class Digraph {
         return s.toString();
     }
 
-    public static void main(String[] args) {
-        In in = new In("tinyDigraph.txt");
-        Digraph graph = new Digraph(in);
-        StdOut.println(graph);
-        StdOut.println(graph.toDot());
-        graph.histograma();
+    /**
+     * Returns an array H where H[d] is the number of vertices with outdegree d.
+     * This can be used to build a histogram of the degree distribution.
+     */
+    public int[] outdegreeHistogram() {
+        int max = 0;
+        for (int v = 0; v < V; v++) {
+            int d = outdegree(v);
+            if (d > max) max = d;
+        }
+        int[] hist = new int[max + 1];
+        for (int v = 0; v < V; v++) {
+            hist[outdegree(v)]++;
+        }
+        return hist;
+    }
 
+    /**
+     * Print an ASCII histogram of outdegree frequencies. Each star represents one vertex.
+     * If counts are large the bars may be truncated or scaled manually by caller.
+     */
+    // common helper to render a more visual histogram with scaling
+    private void printHistogram(int[] hist, String title) {
+        StdOut.println(title);
+        int maxCount = 0;
+        for (int cnt : hist) if (cnt > maxCount) maxCount = cnt;
+        if (maxCount == 0) return;
+        int maxBarWidth = 50;           // adjust for terminal width
+        for (int d = 0; d < hist.length; d++) {
+            int cnt = hist[d];
+            if (cnt == 0) continue;
+            int barLen = (int) ((double) cnt / maxCount * maxBarWidth);
+            if (barLen < 1) barLen = 1;
+            StringBuilder bar = new StringBuilder();
+            for (int i = 0; i < barLen; i++) bar.append('#');
+            StdOut.printf("%2d (%3d) | %s%n", d, cnt, bar);
+        }
+    }
+
+    public void printOutdegreeHistogram() {
+        printHistogram(outdegreeHistogram(), "outdegree histogram");
+    }
+
+    /**
+     * Returns an array H where H[d] is the number of vertices with indegree d.
+     */
+    public int[] indegreeHistogram() {
+        int max = 0;
+        for (int v = 0; v < V; v++) {
+            int d = indegree(v);
+            if (d > max) max = d;
+        }
+        int[] hist = new int[max + 1];
+        for (int v = 0; v < V; v++) {
+            hist[indegree(v)]++;
+        }
+        return hist;
+    }
+
+    /**
+     * Prints an ASCII histogram for indegrees.
+     */
+    public void printIndegreeHistogram() {
+        printHistogram(indegreeHistogram(), "indegree histogram");
+    }
+
+    /**
+     * Write histogram data to a text file. Each line contains "degree count".
+     * The title string is written at the top for context.
+     */
+    private static void writeHistogramToFile(int[] hist, String title, String filename) throws IOException {
+        try (java.io.BufferedWriter bw = new java.io.BufferedWriter(new java.io.FileWriter(filename))) {
+            bw.write(title);
+            bw.newLine();
+            for (int d = 0; d < hist.length; d++) {
+                if (hist[d] > 0) {
+                    bw.write(d + " " + hist[d]);
+                    bw.newLine();
+                }
+            }
+        }
+    }
+
+    /**
+     * Draws a simple bar chart and writes to a PNG file.
+     */
+    private static void writeHistogramImage(int[] hist, String title, String filename) throws IOException {
+        int barWidth = 40;           // wider bars for readability
+        int margin = 60;
+        int width = hist.length * barWidth + margin * 2;
+        int maxCount = 0;
+        for (int cnt : hist) if (cnt > maxCount) maxCount = cnt;
+        int height = (maxCount * 8) + margin * 2; // taller image for counts
+        BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = img.createGraphics();
+        // enable antialiasing for better text/bars
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        // background
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, width, height);
+
+        // title centered (translated for Portuguese)
+        g.setColor(Color.BLACK);
+        Font titleFont = g.getFont().deriveFont(Font.BOLD, 18f);
+        g.setFont(titleFont);
+        FontMetrics fm = g.getFontMetrics();
+        String portTitle = title.replace("outdegree", "grau de saída").replace("indegree", "grau de entrada");
+        int titleWidth = fm.stringWidth(portTitle);
+        g.drawString(portTitle, (width - titleWidth) / 2, margin / 2 + fm.getAscent()/2);
+
+        // axes
+        int axisX = margin;
+        int axisY = height - margin;
+        g.drawLine(axisX, margin, axisX, axisY); // Y axis
+        g.drawLine(axisX, axisY, width - margin, axisY); // X axis
+        // labels in Portuguese
+        Font labelFont = g.getFont().deriveFont(Font.PLAIN, 14f);
+        g.setFont(labelFont);
+        g.drawString("grau", width/2 - 20, height - margin + 40);
+        g.drawString("frequência", margin - 40, margin - 10);
+
+        // draw bars and numbers
+        for (int d = 0; d < hist.length; d++) {
+            int cnt = hist[d];
+            int barHeight = (maxCount == 0) ? 0 : (cnt * (axisY - margin) / maxCount);
+            int x = axisX + d * barWidth + 5;
+            int y = axisY - barHeight;
+            g.setColor(Color.BLUE);
+            g.fillRect(x, y, barWidth - 10, barHeight);
+            g.setColor(Color.BLACK);
+            // draw degree label centered under bar
+            String deg = String.valueOf(d);
+            FontMetrics fm2 = g.getFontMetrics();
+            int degW = fm2.stringWidth(deg);
+            g.drawString(deg, x + ((barWidth-10) - degW)/2, axisY + fm2.getAscent() + 2);
+            // draw count above bar
+            String cnts = String.valueOf(cnt);
+            int cntW = fm2.stringWidth(cnts);
+            g.drawString(cnts, x + ((barWidth-10) - cntW)/2, y - 5);
+        }
+
+        g.dispose();
+        ImageIO.write(img, "png", new java.io.File(filename));
+    }
+
+    public static void main(String[] args) {
+        try {
+            // read a graph from file (default to tinyDigraph.txt if no argument)
+            String filename = args.length > 0 ? args[0] : "tinyDigraph.txt";
+            In in = new In(filename);
+            Digraph graph = new Digraph(in);
+
+            // basic dump and dot representation
+            StdOut.println(graph);
+            StdOut.println(graph.toDot());
+
+            // print a visible histogram of the outdegree distribution
+            graph.printOutdegreeHistogram();
+            // also show indegree frequencies
+            graph.printIndegreeHistogram();
+
+            // write histograms to disk for later inspection
+            writeHistogramToFile(graph.outdegreeHistogram(), "outdegree histogram", "outdegree_hist.txt");
+            writeHistogramToFile(graph.indegreeHistogram(), "indegree histogram", "indegree_hist.txt");
+            writeHistogramImage(graph.outdegreeHistogram(), "outdegree histogram", "outdegree_hist.png");
+            writeHistogramImage(graph.indegreeHistogram(), "indegree histogram", "indegree_hist.png");
+            StdOut.println("Histograms written to outdegree_hist.txt, indegree_hist.txt and PNG images");
+        } catch (IOException ioe) {
+            StdOut.println("error writing histogram file: " + ioe.getMessage());
+        }
     }
 
 }

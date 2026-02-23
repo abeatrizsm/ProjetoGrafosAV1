@@ -34,6 +34,7 @@ class Digraph:
         self.V = v
         self.E = 0
         self.adj = {}
+        self.indegree = [0] * (self.V if self.V > 0 else 0)
         for v in range(self.V):
             self.adj[v] = Bag()
 
@@ -58,6 +59,11 @@ class Digraph:
     def add_edge(self, v, w):
         v, w = int(v), int(w)
         self.adj[v].add(w)
+        # update indegree and edge count
+        # ensure indegree list is large enough
+        if len(self.indegree) < self.V:
+            self.indegree = self.indegree + [0] * (self.V - len(self.indegree))
+        self.indegree[w] += 1
         self.E += 1
 
     def degree(self, v):
@@ -65,7 +71,7 @@ class Digraph:
 
     def max_degree(self):
         max_deg = 0
-        for v in self.V:
+        for v in range(self.V):
             max_deg = max(max_deg, self.degree(v))
         return max_deg
 
@@ -85,6 +91,23 @@ class Digraph:
                 R.add_edge(w, v)
             v += 1
         return R
+
+    def to_dot(self):
+        users = 2
+        lines = []
+        lines.append("digraph {")
+        lines.append('node[shape=circle, style=filled, fixedsize=true, width=0.3, fontsize="10pt"]')
+        lines.append('edge[arrowhead=normal]')
+        for v in range(self.V):
+            for w in self.adj[v]:
+                lines.append(f"{v} -> {w - users}")
+        lines.append("}")
+        return "\n".join(lines) + "\n"
+
+    def histograma(self):
+        # print indegree for each vertex
+        for i in range(self.V):
+            print(self.indegree[i] if i < len(self.indegree) else 0)
 
 if __name__ == '__main__':
     import sys
@@ -106,3 +129,5 @@ if __name__ == '__main__':
             g.add_edge(v, w)
 
     print(g)
+    print(g.to_dot())
+    g.histograma()

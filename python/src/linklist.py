@@ -17,3 +17,6 @@ class LinkIterator:
             item = self.current.item
             self.current = self.current.next
             return item
+    
+    def __iter__(self):
+        return self
