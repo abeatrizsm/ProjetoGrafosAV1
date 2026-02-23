@@ -52,8 +52,13 @@ class Digraph:
     def __str__(self):
         users = 2
         s = "%d vertices, %d edges\n" % (self.V, self.E)
-        s += "\n".join("%d: %s" % (v, " ".join(str(w - users)
-                                               for w in self.adj[v])) for v in range(self.V))
+        for v in range(self.V):
+            # start line with 'v: '
+            s += f"{v}: "
+            # append each adjacent vertex (adjusted) followed by a space
+            for w in self.adj[v]:
+                s += f"{w - users} "
+            s += "\n"
         return s
 
     def add_edge(self, v, w):
