@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d455e9ff-39f6-4535-883f-fbdd680fdf23" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python/src/bag.py" beforeDir="false" afterPath="$PROJECT_DIR$/python/src/bag.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python/src/digraph.py" beforeDir="false" afterPath="$PROJECT_DIR$/python/src/digraph.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python/src/linklist.py" beforeDir="false" afterPath="$PROJECT_DIR$/python/src/linklist.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python/src/stack.py" beforeDir="false" afterPath="$PROJECT_DIR$/python/src/stack.py" afterDir="false" />
-    </list>
+    <list default="true" id="d455e9ff-39f6-4535-883f-fbdd680fdf23" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -41,9 +35,14 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "task2",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/cauan/Documents/GitHub/ProjetoGrafosAV1",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -91,6 +90,7 @@
       <option name="presentableId" value="Default" />
       <updated>1770977451998</updated>
       <workItem from="1771845065286" duration="298000" />
+      <workItem from="1771847615919" duration="1824000" />
     </task>
     <servers />
   </component>
