@@ -6,15 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="d455e9ff-39f6-4535-883f-fbdd680fdf23" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python/src/bag.py" beforeDir="false" afterPath="$PROJECT_DIR$/python/src/bag.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python/src/digraph.py" beforeDir="false" afterPath="$PROJECT_DIR$/python/src/digraph.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python/src/linklist.py" beforeDir="false" afterPath="$PROJECT_DIR$/python/src/linklist.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python/src/stack.py" beforeDir="false" afterPath="$PROJECT_DIR$/python/src/stack.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_C:/Users/cauan/ProjetoGrafosAV1" value="39bvBWIs0O2USk8Gd10kId1MDdC" />
+    </persistenceIdMap>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -39,11 +40,16 @@
     "Application.Convert.executor": "Run",
     "Application.Digraph.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "task2",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/cauan/Documents/GitHub/ProjetoGrafosAV1",
+    "last_opened_file_path": "C:/Users/cauan/ProjetoGrafosAV1",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -52,7 +58,7 @@
       <recent name="C:\Users\anabe\Documents\5 semestre\Grafos\ProjetoGrafosAV1\java" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Convert">
+  <component name="RunManager" selected="Application.Digraph">
     <configuration name="Convert" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Convert" />
       <module name="ProjetoGrafosAV1" />
@@ -69,8 +75,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Convert" />
         <item itemvalue="Application.Digraph" />
+        <item itemvalue="Application.Convert" />
       </list>
     </recent_temporary>
   </component>
@@ -78,7 +84,6 @@
     <attachedChunks>
       <set>
         <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.30387.90" />
-        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.30387.90" />
       </set>
     </attachedChunks>
   </component>
@@ -96,5 +101,13 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
   </component>
 </project>
