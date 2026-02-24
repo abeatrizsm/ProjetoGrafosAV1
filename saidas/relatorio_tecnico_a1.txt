@@ -1,0 +1,9 @@
+INTERPRETAÇÃO TÉCNICA - DATASET MOOC
+====================================
+Vértices: 7144 | Arestas: 411749
+Expoente de Lei de Potência (Gamma): 1,5147
+
+ANÁLISE:
+- A distribuição segue uma Lei de Potência, visível pela reta no Log-Log.
+- O expoente 1,51 indica uma rede altamente centralizada.
+- Sugere que poucos usuários (hubs) dominam as ações no curso online.
