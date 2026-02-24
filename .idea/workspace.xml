@@ -4,7 +4,34 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d455e9ff-39f6-4535-883f-fbdd680fdf23" name="Changes" comment="" />
+    <list default="true" id="d455e9ff-39f6-4535-883f-fbdd680fdf23" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/ProjetoGrafosAV1.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/digraph.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/indegree_hist.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/indegree_hist.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/mooc_actions.tsv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/outdegree_hist.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/outdegree_hist.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/src/Bag.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/src/Convert.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/src/Digraph.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/src/In.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/src/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/src/Stack.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/src/StdIn.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/src/StdOut.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/tinyDigraph.txt" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -33,25 +60,24 @@
     "Application.Convert.executor": "Run",
     "Application.Digraph.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "git-widget-placeholder": "task2",
+    "git-widget-placeholder": "task2Java",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/cauan/Documents/GitHub/ProjetoGrafosAV1",
+    "last_opened_file_path": "C:/Users/anabe/Documents/5 semestre/Grafos/ProjetoAV1",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\anabe\Documents\5 semestre\Grafos\ProjetoGrafosAV1\java" />
-    </key>
-  </component>
-  <component name="RunManager" selected="Application.Convert">
+  <component name="RunManager" selected="Application.Digraph">
     <configuration name="Convert" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Convert" />
       <module name="ProjetoGrafosAV1" />
@@ -68,8 +94,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Convert" />
         <item itemvalue="Application.Digraph" />
+        <item itemvalue="Application.Convert" />
       </list>
     </recent_temporary>
   </component>
@@ -89,8 +115,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1770977451998</updated>
-      <workItem from="1771845065286" duration="298000" />
-      <workItem from="1771847615919" duration="1824000" />
+      <workItem from="1771933567174" duration="1352000" />
     </task>
     <servers />
   </component>

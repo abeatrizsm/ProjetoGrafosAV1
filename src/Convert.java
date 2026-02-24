@@ -82,45 +82,63 @@ public class Convert {
      */
     private static void writeUserHistogramImage(java.util.List<java.util.Map.Entry<Integer,Integer>> list,
                                                 String title, String filename) throws java.io.IOException {
+        // Mantendo sua largura original de 40px por barra
         int barWidth = 40;
         int margin = 60;
         int width = list.size() * barWidth + margin * 2;
+
         int maxCount = 0;
         for (java.util.Map.Entry<Integer,Integer> e : list) {
             if (e.getValue() > maxCount) maxCount = e.getValue();
         }
-        int height = (maxCount * 8) + margin * 2;
+
+        // MUDANÇA ESSENCIAL: Fixamos a altura em 800 (ou outro valor que caiba na sua tela)
+        // Se usar (maxCount * 8), seus 8GB de RAM não aguentarão a alocação de pixels.
+        int height = 800;
+
         java.awt.image.BufferedImage img = new java.awt.image.BufferedImage(width, height, java.awt.image.BufferedImage.TYPE_INT_ARGB);
         java.awt.Graphics2D g = img.createGraphics();
+
         g.setRenderingHint(java.awt.RenderingHints.KEY_ANTIALIASING, java.awt.RenderingHints.VALUE_ANTIALIAS_ON);
         g.setColor(java.awt.Color.WHITE);
         g.fillRect(0, 0, width, height);
+
         g.setColor(java.awt.Color.BLACK);
         java.awt.Font titleFont = g.getFont().deriveFont(java.awt.Font.BOLD, 18f);
         g.setFont(titleFont);
         java.awt.FontMetrics fm = g.getFontMetrics();
         int titleWidth = fm.stringWidth(title);
         g.drawString(title, (width - titleWidth) / 2, margin / 2 + fm.getAscent()/2);
+
         int axisX = margin;
         int axisY = height - margin;
         g.drawLine(axisX, margin, axisX, axisY);
         g.drawLine(axisX, axisY, width - margin, axisY);
+
         java.awt.Font labelFont = g.getFont().deriveFont(java.awt.Font.PLAIN, 14f);
         g.setFont(labelFont);
         g.drawString("usuário no eixo X", width/2 - 40, height - margin + 40);
         g.drawString("ações", margin - 40, margin - 10);
+
         for (int i = 0; i < list.size(); i++) {
             int cnt = list.get(i).getValue();
-            int barHeight = (maxCount == 0) ? 0 : (cnt * (axisY - margin) / maxCount);
+
+            // ESCALONAMENTO PROPORCIONAL: Faz os dados caberem na altura fixa de 800px
+            int plotAreaHeight = axisY - margin;
+            int barHeight = (maxCount == 0) ? 0 : (int) (((double)cnt / maxCount) * plotAreaHeight);
+
             int x = axisX + i * barWidth + 5;
             int y = axisY - barHeight;
+
             g.setColor(java.awt.Color.BLUE);
             g.fillRect(x, y, barWidth - 10, barHeight);
+
             g.setColor(java.awt.Color.BLACK);
             String cnts = String.valueOf(cnt);
             int cntW = g.getFontMetrics().stringWidth(cnts);
             g.drawString(cnts, x + ((barWidth-10) - cntW)/2, y - 5);
         }
+
         g.dispose();
         javax.imageio.ImageIO.write(img, "png", new java.io.File(filename));
     }
