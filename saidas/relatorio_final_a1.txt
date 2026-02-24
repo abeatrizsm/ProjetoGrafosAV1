@@ -1,7 +1,0 @@
-INTERPRETACAO TECNICA - DATASET MOOC
-====================================
-V: 7144 | E: 411749
-Expoente Gamma: 1,5147
-
-O valor indica uma rede Scale-Free altamente centralizada.
-O ajuste (linha vermelha) confirma o modelo de Lei de Potencia.
