@@ -11,90 +11,65 @@ public class Convert {
     private static final int USUARIOS = 7047;
     private static final int VERTICES = 7144;
 
-    public static void main(String[] args){
-       String entrada =  "mooc_actions.tsv";
-       String saida = "digraph.txt";
+    public static void main(String[] args) {
+        String entrada = "mooc_actions.tsv";
+        String saida = "digraph.txt";
 
-       List<int[]> arestas = new ArrayList<>();
+        List<int[]> arestas = new ArrayList<>();
+        Map<Integer, Integer> freq = new HashMap<>();
 
-       try {
-           FileReader fr = new FileReader(entrada);
-           FileWriter fw = new FileWriter(saida);
-           BufferedReader br = new BufferedReader(fr);
-           BufferedWriter bw = new BufferedWriter(fw);
-           String linha = br.readLine();
-
-
-           // we'll also collect frequency of actions per user
-           Map<Integer,Integer> freq = new java.util.HashMap<>();
-
-           while ((linha = br.readLine()) != null){
-               if (linha.trim().isEmpty()){
-                   continue;
-               }
-               String[] partes = linha.split("\t");
-
-               int usuario = Integer.parseInt(partes[1]);
-               int alvo = Integer.parseInt(partes[2]) + USUARIOS;
-
-               arestas.add(new int[]{usuario, alvo});
-
-               // update histogram map
-               freq.put(usuario, freq.getOrDefault(usuario, 0) + 1);
-           }
-
-           // after writing the digraph, print action histogram
-           bw.write(VERTICES + "\n");
-           bw.write(arestas.size() + "\n");
-
-           for (int i = 0; i < arestas.size(); i++) {
-               bw.write(arestas.get(i)[0] + " " + arestas.get(i)[1]);
-               bw.newLine();
-           }
-
-           System.out.println("histograma de ações por usuário (ordenado por frequência desc):");
-           // create a list of entries so we can sort by count
-           java.util.List<java.util.Map.Entry<Integer,Integer>> list =
-                   new java.util.ArrayList<>(freq.entrySet());
-           list.sort((a, b) -> b.getValue().compareTo(a.getValue()));
-           for (java.util.Map.Entry<Integer,Integer> e : list) {
-               System.out.printf("%d -> %d%n", e.getKey(), e.getValue());
-           }
-
-           // optionally produce an image of this histogram as well
-           writeUserHistogramImage(list, "histograma de ações por usuário", "user_hist.png");
-           System.out.println("Imagem do histograma de usuários gravada em user_hist.png");
+        try (BufferedReader br = new BufferedReader(new FileReader(entrada));
+             BufferedWriter bw = new BufferedWriter(new FileWriter(saida))) {
             
-           // note: writing the graph was already done above; the printout
-           // occurs after we build the map.
-           // write image of user histogram
-           writeUserHistogramImage(list, "histograma de ações por usuário", "user_hist.png");
-           System.out.println("Imagem do histograma de usuários gravada em user_hist.png");
-       } catch (Exception e) {
-           e.printStackTrace();
-           return;
-       }
-        System.out.println("Teste");
+            String linha = br.readLine(); // Pular cabeçalho
+
+            while ((linha = br.readLine()) != null) {
+                if (linha.trim().isEmpty()) continue;
+                String[] partes = linha.split("\t");
+                int usuario = Integer.parseInt(partes[1]);
+                int alvo = Integer.parseInt(partes[2]) + USUARIOS;
+
+                arestas.add(new int[]{usuario, alvo});
+                freq.put(usuario, freq.getOrDefault(usuario, 0) + 1);
+            }
+
+            bw.write(VERTICES + "\n");
+            bw.write(arestas.size() + "\n");
+            for (int[] aresta : arestas) {
+                bw.write(aresta[0] + " " + aresta[1]);
+                bw.newLine();
+            }
+            bw.flush();
+            System.out.println("Arquivo " + saida + " gerado com sucesso.");
+
+            // Preparar dados e ordenar
+            List<Map.Entry<Integer, Integer>> list = new ArrayList<>(freq.entrySet());
+            list.sort((a, b) -> b.getValue().compareTo(a.getValue()));
+
+            // LÓGICA DE VERSIONAMENTO: Chama a Main para pegar o nome do arquivo
+            String nomeImagemVersionada = Main.getVersionedName("user_hist", ".png");
+
+            System.out.println("\nGerando imagem: " + nomeImagemVersionada);
+            writeUserHistogramImage(list, "Histograma de Ações por Usuário", nomeImagemVersionada);
+            System.out.println("Concluído.");
+
+        } catch (Exception e) {
+            System.err.println("Erro durante a execução: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
-    /**
-     * Draws a simple bar chart for user-action frequencies. List is sorted by value.
-     */
-    private static void writeUserHistogramImage(java.util.List<java.util.Map.Entry<Integer,Integer>> list,
+    private static void writeUserHistogramImage(List<Map.Entry<Integer, Integer>> list,
                                                 String title, String filename) throws java.io.IOException {
-        // Mantendo sua largura original de 40px por barra
         int barWidth = 40;
-        int margin = 60;
+        int margin = 80; 
         int width = list.size() * barWidth + margin * 2;
+        int height = 800; // Altura fixa para evitar OutOfMemoryError em 8GB RAM
 
         int maxCount = 0;
-        for (java.util.Map.Entry<Integer,Integer> e : list) {
+        for (Map.Entry<Integer, Integer> e : list) {
             if (e.getValue() > maxCount) maxCount = e.getValue();
         }
-
-        // MUDANÇA ESSENCIAL: Fixamos a altura em 800 (ou outro valor que caiba na sua tela)
-        // Se usar (maxCount * 8), seus 8GB de RAM não aguentarão a alocação de pixels.
-        int height = 800;
 
         java.awt.image.BufferedImage img = new java.awt.image.BufferedImage(width, height, java.awt.image.BufferedImage.TYPE_INT_ARGB);
         java.awt.Graphics2D g = img.createGraphics();
@@ -104,39 +79,36 @@ public class Convert {
         g.fillRect(0, 0, width, height);
 
         g.setColor(java.awt.Color.BLACK);
-        java.awt.Font titleFont = g.getFont().deriveFont(java.awt.Font.BOLD, 18f);
-        g.setFont(titleFont);
+        g.setFont(new java.awt.Font("SansSerif", java.awt.Font.BOLD, 22));
         java.awt.FontMetrics fm = g.getFontMetrics();
-        int titleWidth = fm.stringWidth(title);
-        g.drawString(title, (width - titleWidth) / 2, margin / 2 + fm.getAscent()/2);
+        g.drawString(title, (width - fm.stringWidth(title)) / 2, margin / 2);
 
         int axisX = margin;
         int axisY = height - margin;
+        int plotAreaHeight = axisY - margin;
+
         g.drawLine(axisX, margin, axisX, axisY);
         g.drawLine(axisX, axisY, width - margin, axisY);
 
-        java.awt.Font labelFont = g.getFont().deriveFont(java.awt.Font.PLAIN, 14f);
-        g.setFont(labelFont);
-        g.drawString("usuário no eixo X", width/2 - 40, height - margin + 40);
-        g.drawString("ações", margin - 40, margin - 10);
+        g.setFont(new java.awt.Font("SansSerif", java.awt.Font.PLAIN, 14));
+        g.drawString("Usuários (Ordenados por atividade)", width / 2 - 100, axisY + 50);
+        g.drawString("Ações", 10, margin - 10);
 
         for (int i = 0; i < list.size(); i++) {
             int cnt = list.get(i).getValue();
-
-            // ESCALONAMENTO PROPORCIONAL: Faz os dados caberem na altura fixa de 800px
-            int plotAreaHeight = axisY - margin;
-            int barHeight = (maxCount == 0) ? 0 : (int) (((double)cnt / maxCount) * plotAreaHeight);
+            int barHeight = (maxCount == 0) ? 0 : (int) (((double) cnt / maxCount) * plotAreaHeight);
 
             int x = axisX + i * barWidth + 5;
             int y = axisY - barHeight;
 
-            g.setColor(java.awt.Color.BLUE);
+            g.setColor(new java.awt.Color(70, 130, 180));
             g.fillRect(x, y, barWidth - 10, barHeight);
 
             g.setColor(java.awt.Color.BLACK);
+            g.setFont(new java.awt.Font("SansSerif", java.awt.Font.PLAIN, 10));
             String cnts = String.valueOf(cnt);
             int cntW = g.getFontMetrics().stringWidth(cnts);
-            g.drawString(cnts, x + ((barWidth-10) - cntW)/2, y - 5);
+            g.drawString(cnts, x + ((barWidth - 10) - cntW) / 2, y - 5);
         }
 
         g.dispose();

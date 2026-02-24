@@ -2,19 +2,25 @@ import java.io.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DegreeAnalysis {
     public static void main(String[] args) throws IOException {
         if (args.length < 1) {
-            System.err.println("Usage: java -cp src DegreeAnalysis <digraph_file>");
+            System.err.println("Uso: java -cp src DegreeAnalysis <arquivo_digraph>");
             System.exit(1);
         }
+        
         String path = args[0];
         Digraph g = readDigraph(path);
         int V = g.V();
         int E = g.E();
-        System.out.printf("V=%d, E=%d\n", V, E);
+        
+        System.out.println("------------------------------------------");
+        System.out.printf("Análise de Grafo: V=%d, E=%d\n", V, E);
 
+        // Cálculo de estatísticas
         long sumOut = 0, maxOut = 0;
         long sumIn = 0, maxIn = 0;
         for (int v = 0; v < V; v++) {
@@ -23,20 +29,36 @@ public class DegreeAnalysis {
             sumOut += od; if (od > maxOut) maxOut = od;
             sumIn += id; if (id > maxIn) maxIn = id;
         }
-        double avgOut = V == 0 ? 0 : (double) sumOut / V;
-        double avgIn = V == 0 ? 0 : (double) sumIn / V;
-        System.out.printf("avg outdegree=%.4f, max outdegree=%d\n", avgOut, maxOut);
-        System.out.printf("avg indegree=%.4f, max indegree=%d\n", avgIn, maxIn);
+        
+        System.out.printf("Grau de Saída (Outdegree) - Média: %.4f, Máx: %d\n", (double)sumOut/V, maxOut);
+        System.out.printf("Grau de Entrada (Indegree) - Média: %.4f, Máx: %d\n", (double)sumIn/V, maxIn);
 
+        // Obter histogramas
         int[] outHist = g.outdegreeHistogram();
         int[] inHist = g.indegreeHistogram();
 
-        writeHistFile(outHist, "outdegree histogram", "outdegree_hist.txt");
-        writeHistFile(inHist, "indegree histogram", "indegree_hist.txt");
-        writeLogLogPlot(outHist, "outdegree (log-log)", "outdegree_loglog.png");
-        writeLogLogPlot(inHist, "indegree (log-log)", "indegree_loglog.png");
+        // Gerar nomes versionados usando a Main
+        String fileOutTxt = Main.getVersionedName("outdegree_hist", ".txt");
+        String fileInTxt  = Main.getVersionedName("indegree_hist", ".txt");
+        String fileOutPng = Main.getVersionedName("outdegree_loglog", ".png");
+        String fileInPng  = Main.getVersionedName("indegree_loglog", ".png");
+
+        System.out.println("\nSalvando arquivos em 'saidas/':");
+        
+        // Salvar arquivos de texto
+        writeHistFile(outHist, "outdegree histogram", fileOutTxt);
+        writeHistFile(inHist, "indegree histogram", fileInTxt);
+        System.out.println("  [TXT] " + fileOutTxt + " e " + fileInTxt);
+
+        // Salvar gráficos Log-Log
+        writeLogLogPlot(outHist, "Outdegree Distribution (Log-Log)", fileOutPng);
+        writeLogLogPlot(inHist, "Indegree Distribution (Log-Log)", fileInPng);
+        System.out.println("  [PNG] " + fileOutPng + " e " + fileInPng);
+
+        // Mostrar os Top 10
         printTopK(g, 10);
-        System.out.println("\nDone.");
+        
+        System.out.println("\nAnálise finalizada com sucesso.");
     }
 
     private static Digraph readDigraph(String path) throws IOException {
@@ -72,30 +94,27 @@ public class DegreeAnalysis {
         int n = 0;
         for (int c : hist) if (c > 0) n++;
         if (n == 0) return;
+
         double[] xs = new double[n];
         double[] ys = new double[n];
         int idx = 0;
         for (int d = 0; d < hist.length; d++) {
             int c = hist[d];
             if (c <= 0) continue;
-            xs[idx] = Math.log10(Math.max(1, d));
-            ys[idx] = Math.log10(c);
+            xs[idx] = Math.log10(Math.max(1, d)); // log do grau
+            ys[idx] = Math.log10(c);              // log da frequência
             idx++;
         }
 
         int width = 800, height = 600;
         BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = img.createGraphics();
+        
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, width, height);
-        g.setColor(Color.BLACK);
-        Font titleFont = g.getFont().deriveFont(Font.BOLD, 16f);
-        g.setFont(titleFont);
-        FontMetrics fm = g.getFontMetrics();
-        int tw = fm.stringWidth(title);
-        g.drawString(title, (width - tw) / 2, 30);
-
+        
+        // Cálculo de limites para escala
         double xmin = Double.POSITIVE_INFINITY, xmax = Double.NEGATIVE_INFINITY;
         double ymin = Double.POSITIVE_INFINITY, ymax = Double.NEGATIVE_INFINITY;
         for (int i = 0; i < xs.length; i++) {
@@ -110,10 +129,14 @@ public class DegreeAnalysis {
         int margin = 80;
         int plotW = width - margin * 2;
         int plotH = height - margin * 2;
+
+        // Desenhar Eixos
+        g.setColor(Color.BLACK);
         g.drawLine(margin, margin, margin, margin + plotH);
         g.drawLine(margin, margin + plotH, margin + plotW, margin + plotH);
 
-        g.setColor(Color.BLUE);
+        // Desenhar Pontos
+        g.setColor(new Color(70, 130, 180)); // SteelBlue
         for (int i = 0; i < xs.length; i++) {
             double nx = (xs[i] - xmin) / (xmax - xmin);
             double ny = (ys[i] - ymin) / (ymax - ymin);
@@ -122,34 +145,38 @@ public class DegreeAnalysis {
             g.fillOval(px - 3, py - 3, 6, 6);
         }
 
+        // Títulos e Legendas
         g.setColor(Color.BLACK);
-        Font labelFont = g.getFont().deriveFont(Font.PLAIN, 12f);
-        g.setFont(labelFont);
-        g.drawString("log10(degree)", margin + plotW / 2 - 30, height - 20);
-        g.drawString("log10(freq)", 10, margin + plotH / 2);
+        g.setFont(new Font("SansSerif", Font.BOLD, 18));
+        g.drawString(title, (width - g.getFontMetrics().stringWidth(title)) / 2, 40);
+        
+        g.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        g.drawString("log10(Grau)", margin + plotW / 2 - 40, height - 25);
+        g.drawString("log10(Freq)", 10, margin + plotH / 2);
+
         g.dispose();
         ImageIO.write(img, "png", new File(filename));
     }
 
     private static void printTopK(Digraph g, int k) {
         int V = g.V();
-        java.util.List<int[]> outlist = new java.util.ArrayList<>();
-        java.util.List<int[]> inlist = new java.util.ArrayList<>();
+        List<int[]> outlist = new ArrayList<>();
+        List<int[]> inlist = new ArrayList<>();
         for (int v = 0; v < V; v++) {
             outlist.add(new int[]{v, g.outdegree(v)});
             inlist.add(new int[]{v, g.indegree(v)});
         }
         outlist.sort((a,b) -> Integer.compare(b[1], a[1]));
         inlist.sort((a,b) -> Integer.compare(b[1], a[1]));
-        System.out.println("\nTop " + k + " by outdegree:");
+
+        System.out.println("\n--- Top " + k + " por Grau de Saída (Outdegree) ---");
         for (int i = 0; i < Math.min(k, outlist.size()); i++) {
-            int[] p = outlist.get(i);
-            System.out.printf("  %d: %d\n", p[0], p[1]);
+            System.out.printf("  Nó %d: %d\n", outlist.get(i)[0], outlist.get(i)[1]);
         }
-        System.out.println("Top " + k + " by indegree:");
+
+        System.out.println("\n--- Top " + k + " por Grau de Entrada (Indegree) ---");
         for (int i = 0; i < Math.min(k, inlist.size()); i++) {
-            int[] p = inlist.get(i);
-            System.out.printf("  %d: %d\n", p[0], p[1]);
+            System.out.printf("  Nó %d: %d\n", inlist.get(i)[0], inlist.get(i)[1]);
         }
     }
 }
