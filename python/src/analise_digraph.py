@@ -70,25 +70,6 @@ def plot_histograma(graus):
 	plt.tight_layout()
 	plt.show()
 
-def plot_histograma_normalizado(graus):
-	import numpy as np
-	import matplotlib.pyplot as plt
-
-	grau, frequencia = np.unique(graus, return_counts=True)
-	pk = frequencia / frequencia.sum()
-
-	plt.figure(figsize=(22, 4))
-	plt.bar(grau, pk, width=1.0)
-
-	plt.xlim(left=-0.5)
-	plt.margins(x=0.01)
-
-	plt.xlabel("Grau (k)")
-	plt.ylabel("P(k)")
-	plt.title("Distribuição de Grau P(k) em escala linear")
-	plt.tight_layout()
-	plt.show()
-
 def plot_loglog_powerlaw(graus):
     
 	import numpy as np
@@ -122,7 +103,7 @@ def plot_loglog_powerlaw(graus):
 
 	plt.figure(figsize=(8, 6))
 	plt.scatter(grau, pk, s=20, alpha=0.8, label='P(k) empírica')
-	fit.power_law.plot_pdf(ax = ax ,color='red', linestyle='--', linewidth=2, label='Lei de potência')
+	fit.power_law.plot_pdf(ax = ax , color='red', linestyle='--', linewidth=2, label='Lei de potência')
 
 	plt.xscale('log')
 	plt.yscale('log')
@@ -152,7 +133,7 @@ if __name__ == "__main__":
 	graus = calcular_metricas(g)
 
 	#plot_histograma(graus)
-	#plot_histograma_normalizado(graus)
+
 	gamma = plot_loglog_powerlaw(graus)
  
  # rodar : python src/analise_digraph.py data/digraph.txt
