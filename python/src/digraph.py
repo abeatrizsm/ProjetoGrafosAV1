@@ -62,7 +62,7 @@ class Digraph:
         self.E += 1
 
     def degree(self, v):
-        return len(self.adj[v])
+      return self.adj[v].size()
 
     def max_degree(self):
         max_deg = 0
