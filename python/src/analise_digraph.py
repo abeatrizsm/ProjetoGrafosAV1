@@ -125,3 +125,5 @@ if __name__ == "__main__":
 
 	plot_histograma(graus)
 	gamma = plot_loglog_powerlaw(graus)
+ 
+ # rodar : python src/analise_digraph.py data/digraph.txt
