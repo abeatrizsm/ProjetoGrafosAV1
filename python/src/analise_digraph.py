@@ -27,8 +27,8 @@ def carregar_grafo(caminho):
 			g.add_edge(v, w)
 			lidas += 1
 
-		print(f"Arestas esperadas: {E}")
-		print(f"Arestas lidas: {lidas}")
+		print(f"teste {E} / {lidas}")
+		
 
 	return g
 
@@ -42,23 +42,24 @@ def calcular_metricas(g):
 	grau_medio = graus.mean()
 	densidade = E / (V * (V - 1))
 
-	print("=== MÉTRICAS BÁSICAS ===")
-	print(f"|V| = {V}")
-	print(f"|E| = {E}")
-	print(f"Densidade = {densidade:.6f}")
-	print(f"Grau médio = {grau_medio:.4f}")
+	print("\n\n\n-----------------------------------")
+	print("Metricas básicas: ")
+	print(f" -Vertices = {V}")
+	print(f" -Arestas = {E}")
+	print(f" -Densidade = {densidade:.6f}")
+	print(f" -Grau médio = {grau_medio:.4f}")
+	print("-----------------------------------\n\n\n")
 
 	return graus
-
 
 def plot_histograma(graus):
 	import numpy as np
 	import matplotlib.pyplot as plt
 
-	valores, contagens = np.unique(graus, return_counts=True)
+	grau, frequencia = np.unique(graus, return_counts=True)
 
 	plt.figure(figsize=(22, 4))
-	plt.bar(valores, contagens, width=1.0)
+	plt.bar(grau, frequencia, width=1.0)
 
 	plt.xlim(left=-0.5)
 	plt.margins(x=0.01)
@@ -69,37 +70,64 @@ def plot_histograma(graus):
 	plt.tight_layout()
 	plt.show()
 
+def plot_histograma_normalizado(graus):
+	import numpy as np
+	import matplotlib.pyplot as plt
+
+	grau, frequencia = np.unique(graus, return_counts=True)
+	pk = frequencia / frequencia.sum()
+
+	plt.figure(figsize=(22, 4))
+	plt.bar(grau, pk, width=1.0)
+
+	plt.xlim(left=-0.5)
+	plt.margins(x=0.01)
+
+	plt.xlabel("Grau (k)")
+	plt.ylabel("P(k)")
+	plt.title("Distribuição de Grau P(k) em escala linear")
+	plt.tight_layout()
+	plt.show()
 
 def plot_loglog_powerlaw(graus):
+    
 	import numpy as np
 	import matplotlib.pyplot as plt
 	import powerlaw
 
+	fig, ax = plt.subplots()
 	graus = graus[graus > 0]
-
-	valores, contagens = np.unique(graus, return_counts=True)
-	pk = contagens / contagens.sum()
-
+ 
+	grau, frequencia = np.unique(graus, return_counts=True)
+	pk = frequencia / frequencia.sum()
+ 
 	fit = powerlaw.Fit(graus, discrete=True)
 	gamma = fit.power_law.alpha
 	xmin = fit.power_law.xmin
-
-	print("\n=== AJUSTE LEI DE POTÊNCIA ===")
-	print(f"Expoente gamma (α) = {gamma:.4f}")
-	print(f"xmin = {xmin}")
-	print("Expressão: P(k) ~ k^(-gamma)")
+	ks = fit.power_law.D
+	n_cauda = fit.power_law.n
+	
+	print("\n\n\n-----------------------------------")
+	print("Lei de potência:")
+	print(f" -Expoente gamma = {gamma:.4f}")
+	print(f" -xmin = {xmin}")
+	print(f" -KS = {ks:.6f}")
+	print(f" -n_cauda = {n_cauda}")
 
 	R, p = fit.distribution_compare('power_law', 'lognormal')
 	print(f"FitCompare (power law vs lognormal): R = {R:.4f}, p = {p:.4f}")
+	print("-----------------------------------\n\n\n")
+
+	fit.plot_pdf(ax=ax, label='PDF')
 
 	plt.figure(figsize=(8, 6))
-	plt.scatter(valores, pk, s=20, alpha=0.8, label='P(k) empírica')
-	fit.power_law.plot_pdf(color='red', linestyle='--', linewidth=2, label='Lei de potência')
+	plt.scatter(grau, pk, s=20, alpha=0.8, label='P(k) empírica')
+	fit.power_law.plot_pdf(ax = ax ,color='red', linestyle='--', linewidth=2, label='Lei de potência')
 
 	plt.xscale('log')
 	plt.yscale('log')
 
-	plt.xlim(valores.min()*0.9, valores.max()*1.1)
+	plt.xlim(grau.min()*0.9, grau.max()*1.1)
 	plt.ylim(pk[pk > 0].min()*0.8, pk.max()*1.2)
 
 	plt.xlabel("Grau (k)")
@@ -123,7 +151,8 @@ if __name__ == "__main__":
 	g = carregar_grafo(caminho)
 	graus = calcular_metricas(g)
 
-	plot_histograma(graus)
+	#plot_histograma(graus)
+	#plot_histograma_normalizado(graus)
 	gamma = plot_loglog_powerlaw(graus)
  
  # rodar : python src/analise_digraph.py data/digraph.txt
