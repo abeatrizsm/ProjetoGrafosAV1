@@ -77,11 +77,9 @@ def plot_loglog_powerlaw(graus):
 
 	graus = graus[graus > 0]
 
-	# PDF empírica
 	valores, contagens = np.unique(graus, return_counts=True)
 	pk = contagens / contagens.sum()
 
-	# Ajuste power-law
 	fit = powerlaw.Fit(graus, discrete=True)
 	gamma = fit.power_law.alpha
 	xmin = fit.power_law.xmin
@@ -94,14 +92,9 @@ def plot_loglog_powerlaw(graus):
 	R, p = fit.distribution_compare('power_law', 'lognormal')
 	print(f"FitCompare (power law vs lognormal): R = {R:.4f}, p = {p:.4f}")
 
-	# Plot
 	plt.figure(figsize=(8, 6))
-
-	# Pontos empíricos
 	plt.scatter(valores, pk, s=20, alpha=0.8, label='P(k) empírica')
-
-	# Reta da lei de potência (modelo ajustado pelo powerlaw)
-	fit.power_law.plot_pdf(color='red', linestyle='--', linewidth=2, label='Lei de potência ajustada')
+	fit.power_law.plot_pdf(color='red', linestyle='--', linewidth=2, label='Lei de potência')
 
 	plt.xscale('log')
 	plt.yscale('log')
